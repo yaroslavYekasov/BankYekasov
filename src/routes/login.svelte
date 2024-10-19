@@ -1,10 +1,10 @@
-<!--<script context="module">
+<script context="module">
     export async function preload({ params }, { token }) {
         if (token) {
             this.redirect(302, `/overview`);
         }
     }
-</script>-->
+</script>
 
 <script>
     import {goto, stores} from '@sapper/app';
