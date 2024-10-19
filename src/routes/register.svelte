@@ -1,23 +1,30 @@
 <script>
     import { goto, stores } from '@sapper/app';
+
     import { post } from 'utils.js';
+
     const { session } = stores();
+
     let username = '';
     let name = '';
     let password = '';
     let error = null;
+
     async function submit(event) {
         const response = await post(`auth/register`, { username, name, password });
 
+        // TODO handle network errors
         error = response.error;
-        if (response.id) {
-            goto('/');
+
+        if (response.user) {
+            $session.user = response.user;
+            goto('/login');
         }
     }
 </script>
 
 <svelte:head>
-    <title>Sign up • BarBank</title>
+    <title>Sign up • Conduit</title>
 </svelte:head>
 
 <div class="auth-page">
@@ -28,22 +35,23 @@
                 <p class="text-xs-center">
                     <a href="/login">Have an account?</a>
                 </p>
+
                 {#if error}
                     <div class="alert alert-danger" role="alert">{error}</div>
                 {/if}
 
                 <form on:submit|preventDefault={submit}>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" required placeholder="Your username" bind:value={username}>
+                        <input class="form-control form-control-lg" type="text" required placeholder="Your Name" bind:value={username}>
                     </fieldset>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" required placeholder="Name" bind:value={name}>
+                        <input class="form-control form-control-lg" type="text" required placeholder="Your Username" bind:value={name}>
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="password" required placeholder="Password" bind:value={password}>
-                        {#if password.length > 1 && password.length < 6 }<sup><div class="alert alert-danger" role="alert">Password to short</div></sup>{/if}
+                        {#if password.length > 1 && password.length < 6}<sup><div class="alert alert-danger" role="alert">Password too short</div></sup>{/if}
                     </fieldset>
-                    <button class="btn btn-lg btn-primary pull-xs-right" disabled="{password.length < 6}">
+                    <button class="btn btn-lg btn-primary pull-xs-right" disabled="{password.length <6}">
                         Sign up
                     </button>
                 </form>

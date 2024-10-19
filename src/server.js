@@ -3,18 +3,20 @@ import polka from 'polka';
 import compression from 'compression';
 import * as sapper from '@sapper/server';
 import session from 'express-session';
-import sessionFileStore from 'session-file-store'; // npm install session-file-store
-
+import sessionFileStore from 'session-file-store';
 const { json } = require('body-parser');
+
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
-const FileStore = new sessionFileStore(session);// faili salvestamine
+const FileStore = new sessionFileStore(session);
+
+
 polka() // You can also use Express
 	.use(
 		compression({ threshold: 0 }),
 		json(),
 		session({
-			secret: 'iiiirrrr', //suvaline EI tohi githubi panna
+			secret: 'dadadada',
 			resave: true,
 			saveUninitialized: true,
 			cookie: {
@@ -27,7 +29,8 @@ polka() // You can also use Express
 		sirv('static', { dev }),
 		sapper.middleware({
 			session: req => ({
-				user: req.session && req.session.user
+				user: req.session && req.session.user,
+				token: req.session && req.session.token
 			})
 		})
 	)
