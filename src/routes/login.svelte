@@ -25,7 +25,7 @@
         if (response.token) {
             console.log(response)
             $session.token = response.token;
-            goto('/');
+            goto('/overview');
         }
     }
 </script>
