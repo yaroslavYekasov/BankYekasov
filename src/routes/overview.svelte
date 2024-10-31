@@ -24,9 +24,13 @@
 {#await getMyData()}
     Loading...
     {:then my}
-    <p>
-        {my.name}
-    </p>
+    <section>
+        <p>{my.name}</p>
+    </section>
+    <section>
+        My funds
+        <p>{my.funds}</p>
+    </section>
     <pre>{JSON.stringify(my, null, 4)}</pre>
 {/await}
     {/if}
