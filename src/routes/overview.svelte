@@ -31,6 +31,13 @@
         My funds
         <p>{my.funds}</p>
     </section>
+    <section>
+        <ul>
+            {#each my.accounts as account}
+                <li>{account.number} {account.name}</li>
+            {/each}
+        </ul>
+    </section>
     <pre>{JSON.stringify(my, null, 4)}</pre>
 {/await}
     {/if}
